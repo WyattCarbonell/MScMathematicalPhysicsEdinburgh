@@ -1,0 +1,3 @@
+variable randomseed equal        15378
+variable foldername index ../DataStorage/RunData/Repeats/1000
+variable restartDirectory index ../DataStorage/RunData/Primary/9/Restarts/Restart.knot3_1.n200.162000

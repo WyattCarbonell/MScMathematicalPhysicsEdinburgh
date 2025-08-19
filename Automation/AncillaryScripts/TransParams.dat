@@ -1,0 +1,2 @@
+variable randomseed equal        51102
+variable foldername index ../DataStorage/RunData/Primary/1

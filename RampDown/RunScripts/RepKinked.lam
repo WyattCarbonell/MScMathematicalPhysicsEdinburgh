@@ -1,0 +1,95 @@
+#WHEN IN DOUBT, LOOK UP @ https://lammps.sandia.gov/doc/Manual.html
+
+## DO POST PROCESSING TO OBTAIN A FILE THAT CAN BE LOADED INTO
+## http://kymoknot.sissa.it/kymoknot/interactive.php
+## USE THIS WEBISTE TO COMPUTE KNOT TYPE
+
+############################
+####   SIM PARAMETERS    ###
+############################
+units lj
+atom_style angle
+boundary        p p p
+neighbor 1.0 bin
+neigh_modify every 1 delay 1 check yes
+
+############################
+####    DEFINTIONS     #####
+############################
+variable knot_type index 3_1
+variable N equal 200
+variable simname index knot${knot_type}.n${N}
+include ../RunScripts/RepParams.dat
+shell mkdir ${foldername}
+
+############################
+####   READ DATA FILE ######
+############################
+
+read_restart ${restartDirectory}
+
+############################
+####   CREATE BOX    #######
+############################
+# no need to create box or atoms
+# it is read in the data file
+
+######################################
+# INTEGRATION OF Equations of motion #
+######################################
+fix 1 all   nve
+fix 2 all  langevin   1.0 1.0   1.0  ${randomseed}
+
+####################################
+####    FENE BONDS           #######
+####################################
+bond_style fene
+bond_coeff * 30.0 1.5 1.0 1.0
+
+####################################
+####    PAIR INTERACTIONS    #######
+####################################
+pair_style hybrid lj/cut 1.226 soft 1.0
+pair_modify     shift yes
+pair_coeff		* * soft 1.0 1.0
+pair_coeff      1 1 lj/cut 1.0 1.0 1.12246
+
+####################################
+####    ANGLES                #######
+####################################
+
+#angle_style cosine
+#angle_coeff 1 10.0
+#angle_coeff 2 10.0
+
+#OPTIONAL: Cause Phantom Segment to Bend
+
+angle_style hybrid cosine charmm
+angle_coeff 1 cosine 10.0
+angle_coeff 2 charmm 50.0 90.0 0.0 0.0
+
+####################################
+##### Dump Data ###################
+###################################
+
+#DAT
+dump 1 all custom 1 ${foldername}/${simname}.* id type x y z ix iy iz
+
+#Forces
+dump 3 all custom 1 ${foldername}/${simname}.forces.* id fx fy fz
+
+######################
+#### CUSTOM INFO #####
+######################
+thermo 1000
+thermo_style   custom   step  temp  epair vol cpu
+
+fix confine all indent 1.0 sphere 0.0 0.0 0.0 10.0 side in
+
+####################################
+####    RUN -- EQUIL         #######
+####################################
+thermo 1000
+reset_timestep 0
+timestep 0.01
+run 50000

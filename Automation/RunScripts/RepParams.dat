@@ -1,0 +1,3 @@
+variable randomseed equal        36284
+variable foldername index ../DataStorage/RunData/Repeats/500
+variable restartDirectory index ../
