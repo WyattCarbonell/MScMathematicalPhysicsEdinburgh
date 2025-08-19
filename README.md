@@ -14,10 +14,10 @@ Any scripts involving the 'Two Hit' model also require a custom fix which can be
 
 File Structure:
 
-Root
-    Automation contains the 'automation script' described in the dissertation, which serves to analyse forces and, in the case of the Two Hit model, collision frequencies.
-    RampDown contains a heavily modified Automation script which is intended to track the behaviour of systems on route to equilibrium, instead of in equilibrium.
-    OneDimensionalLangevin contains the following files, all related to the One Dimensional Langevin model described in the dissertation
-        ProbabilityDistributions creates probability distributions for resetting and equilibrium cases, as displayed in the dissertation
-        DemonstrationRun produces the results of the demonstration case, except for the probability distribution figure
-        (A)SymmetricCentralPotentialRuns respectively run the symmetric and asymmetric versions of our model for a series of central potentials
+--Root
+    --Automation contains the 'automation script' described in the dissertation, which serves to analyse forces and, in the case of the Two Hit model, collision frequencies.
+    --RampDown contains a heavily modified Automation script which is intended to track the behaviour of systems on route to equilibrium, instead of in equilibrium.
+    --OneDimensionalLangevin contains the following files, all related to the One Dimensional Langevin model described in the dissertation
+        --ProbabilityDistributions creates probability distributions for resetting and equilibrium cases, as displayed in the dissertation
+        --DemonstrationRun produces the results of the demonstration case, except for the probability distribution figure
+        --(A)SymmetricCentralPotentialRuns respectively run the symmetric and asymmetric versions of our model for a series of central potentials
